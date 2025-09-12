@@ -2,331 +2,327 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi regalo 💌</title>
+  <title>Mi regalo especial 💌</title>
   <meta name="google-adsense-account" content="ca-pub-4704501585981299">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+    * ,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Quicksand", sans-serif;
+      background: linear-gradient(to bottom right, #ffecec, #fff5f5, #ffebeb);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Título encima del sobre */
+    h1.titulo-superior {
+      font-family: "Quicksand", sans-serif;
+      font-size: 3rem;
+      font-style: italic;
+      color: #c0392b;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInTitulo 2s ease forwards;
+    }
+
+    @keyframes fadeInTitulo {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .envelope {
+      --duration: 1000ms;
+      --shadow-width: calc(var(--envelope-width) * 0.85);
+      --shadow-blur: 15px;
+      --envelope-width: 300px;
+      --envelope-height: 175px;
+      --envelope-clr-bg: #d14d44;
+      --envelope-clr-bg-side: #c24e46;
+      --envelope-clr-bg-bottom: #e15349;
+      --envelope-clr-bg-top: #d14d44;
+      --envelope-clr-txt: #fff;
+      --envelope-transform-hover: rotateY(180deg);
+      --evelope-rotate-delay: calc(var(--duration) / 1);
+      --evelope-rotate-delay-hover: 0ms;
+      --letter-clr-bg: #fff;
+      --letter-clr-text: #c0392b;
+      --letter-font-size: 0.9rem; /* reducido un poco */
+      --letter-delay: 0ms;
+      --letter-delay-hover: calc(var(--duration) * 1.25);
+      --letter-height: calc(var(--envelope-height) - 2rem);
+      --letter-height-hover: calc(var(--envelope-height) * 1.75);
+      --fold-rotate: rotateX(0deg);
+      --fold-zindex-hover: 0;
+      --fold-rotate-hover: rotateX(180deg);
+      --fold-delay: calc(var(--duration) / 2);
+      --fold-delay-hover: calc(var(--duration) * .75);
+      --front-font-size: 1rem;
+      --snowman-width: 50px;
+      --bells-width: 30px;
+
+      position: relative;
+      height: var(--envelope-height);
+      width: var(--envelope-width);
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    @media (min-width: 720px) {
+      .envelope {
+        --envelope-width: 600px;
+        --envelope-height: 350px;
+        --letter-font-size: 1.4rem; /* tamaño moderado para pantallas más grandes */
+        --snowman-width: 130px;
+        --bells-width: 60px;
+        --front-font-size: 1.25rem;
+      }
+    }
+
+    .envelope::after {
+      content: "";
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      width: var(--shadow-width);
+      height: 40px;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--evelope-rotate-delay);
+      transform: var(--shadow-transform);
+      translate: -50% 0;
+      border-radius: 50%;
+      background: rgba(56, 6, 6, 0.4);
+      filter: blur(var(--shadow-blur));
+    }
+
+    .envelope:hover {
+      --envelope-transform: var(--envelope-transform-hover);
+      --evelope-rotate-delay: var(--evelope-rotate-delay-hover);
+      --shadow-transform: rotateY(180deg);
+      --fold-rotate: var(--fold-rotate-hover);
+      --fold-delay: var(--fold-delay-hover);
+      --fold-zindex: var(--fold-zindex-hover);
+      --letter-height: var(--letter-height-hover);
+      --letter-delay: var(--letter-delay-hover);
+    }
+
+    .envelope-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--evelope-rotate-delay);
+      transform-style: preserve-3d;
+      transform: var(--envelope-transform);
+      display: grid;
+    }
+
+    .envelope-front,
+    .envelope-back {
+      position: relative;
+      grid-area: 1/1;
+      width: 100%;
+      height: 100%;
+      background-color: var(--envelope-clr-bg);
+      backface-visibility: hidden;
+      isolation: isolate;
+    }
+
+    .envelope-front {
+      color: var(--envelope-clr-txt);
+      display: grid;
+      place-content: center;
+    }
+
+    .envelope-front .postage-stamp {
+      position: absolute;
+      top: 1em;
+      right: 0.5em;
+      width: 15%;
+    }
+
+    .envelope-front .address {
+      text-align: left;
+      font-size: var(--front-font-size);
+    }
+    .envelope-front .address > p > span:first-child {
+      font-family: system-ui;
+      font-weight: 200;
+    }
+    .envelope-front .address > p > span:last-of-type {
+      font-weight: 800;
+    }
+
+    .envelope-back {
+      transform: rotateY(180deg);
+    }
+    .envelope-back::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background-image: conic-gradient(
+        transparent 60deg,
+        var(--envelope-clr-bg-side) 60deg 120deg,
+        var(--envelope-clr-bg-bottom) 120deg 240deg,
+        var(--envelope-clr-bg-side) 240deg 300deg,
+        transparent 300deg
+      );
+    }
+    .envelope-back .top-fold {
+      position: absolute;
+      inset: 0;
+      z-index: var(--fold-zindex, 10);
+      background-color: var(--envelope-clr-bg-top);
+      clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
+      transform: var(--fold-rotate);
+      transform-origin: top;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--fold-delay);
+    }
+
+    .letter {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      width: 90%;
+      height: var(--letter-height);
+      font-size: var(--letter-font-size);
+      transform: translateX(-50%);
+      background: var(--letter-clr-bg);
+      z-index: 2;
+      padding: 2em 3em;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      text-align: center;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--letter-delay);
+      overflow: hidden;
+    }
+
+    .letter p {
+      margin: 0;
+      font-weight: bold;
+      width: 28ch; /* un poco más estrecho para ajustarse */
+      color: var(--letter-clr-text);
+    }
+
+    .custom-image {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+    .custom-image2 {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+    }
+
+    /* EMOJI RAIN */
+    .emoji-rain-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .emoji {
+      position: absolute;
+      top: -50px;
+      font-size: 2rem;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ESTILOS -->
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+  <!-- TÍTULO ENCIMA DEL SOBRE -->
+  <h1 class="titulo-superior">Feliz día Kla! 🌻</h1>
 
-	*,
-	::before,
-	::after {
-		box-sizing: border-box;
-	}
-	body {
-		font-family: "Quicksand", sans-serif;
-		background: linear-gradient(to bottom right, #ffecec, #fff5f5, #ffebeb);
-		color: #333;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 100vh;
-		margin: 0;
-		padding: 1rem;
-		overflow: hidden;
-		-webkit-tap-highlight-color: transparent;
-	}
+  <!-- SOBRE -->
+  <div class="envelope">
+    <div class="envelope-inner">
+      <div class="envelope-front">
+        <img class="postage-stamp" src="https://img.freepik.com/vector-premium/pulgar-dedos-imprimir-marca-huella-dactilar-amor-corazon_53500-1839.jpg" alt="love1" />
+        <div class="address">
+          <p><span>De:</span> <span>Yo merito</span></p>
+          <p><span>Para:</span> <span>Ti uwu ♥️</span></p>
+        </div>
+      </div>
+      <div class="envelope-back">
+        <div class="top-fold"></div>
+        <div class="letter">
+          <p>Yo vi esta flor y pensé en ti porque es bonita, en realidad a mí no me gusta, pero pensé que a ti te gustaría, porque tú sí eres bonita.</p>
+          <img class="custom-image" src="https://img.freepik.com/vector-premium/pulgar-dedos-imprimir-marca-huella-dactilar-amor-corazon_53500-1839.jpg" alt="love1" />
+          <img class="custom-image2" src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg" alt="love2" />
+        </div>
+      </div>
+    </div>
+  </div>
 
-	.envelope {
-		--duration: 1000ms;
-		--shadow-width: calc(var(--envelope-width) * 0.85);
-		--shadow-blur: 15px;
-		--envelope-width: 300px;
-		--envelope-height: 175px;
-		--envelope-clr-bg: #d14d44;
-		--envelope-clr-bg-side: #c24e46;
-		--envelope-clr-bg-bottom: #e15349;
-		--envelope-clr-bg-top: #d14d44;
-		--envelope-clr-txt: #fff;
-		--envelope-transform-hover: rotateY(180deg);
-		--evelope-rotate-delay: calc(var(--duration) / 1);
-		--evelope-rotate-delay-hover: 0ms;
-		--letter-clr-bg: #fff;
-		--letter-clr-text: #c0392b;
-		--letter-font-size: 1rem;
-		--letter-delay: 0ms;
-		--letter-delay-hover: calc(var(--duration) * 1.25);
-		--letter-height: calc(var(--envelope-height) - 2rem);
-		--letter-height-hover: calc(var(--envelope-height) * 1.75);
-		--fold-rotate: rotateX(0deg);
-		--fold-zindex-hover: 0;
-		--fold-rotate-hover: rotateX(180deg);
-		--fold-delay: calc(var(--duration) / 2);
-		--fold-delay-hover: calc(var(--duration) * .75);
-		--front-font-size: 1rem;
-		--snowman-width: 50px;
-		--bells-width: 30px;
+  <!-- EMOJI RAIN -->
+  <div class="emoji-rain-container"></div>
 
-		position: relative;
-		height: var(--envelope-height);
-		width: var(--envelope-width);
-		perspective: 1000px;
-		cursor: pointer;
-	}
+  <!-- AUDIO -->
+  <audio id="music" preload="auto">
+    <source src="https://dl.dropboxusercontent.com/scl/fi/6tv9n7fjs86dfj8zqef83/Flores-Amarillas.mp3?rlkey=r3lm9mfo0rf7wzy0b95e4l7sv&dl=0" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
 
-	@media (min-width: 720px) {
-		.envelope {
-			--envelope-width: 600px;
-			--envelope-height: 350px;
-			--letter-font-size: 1.6rem;
-			--snowman-width: 130px;
-			--bells-width: 60px;
-			--front-font-size: 1.25rem;
-		}
-	}
+  <!-- SCRIPT -->
+  <script>
+    function createEmoji() {
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.textContent = "🌻";
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.fontSize = (Math.random() * 20 + 20) + "px";
+      emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
 
-	.envelope::after {
-		content: "";
-		position: absolute;
-		top: 110%;
-		left: 50%;
-		width: var(--shadow-width);
-		height: 40px;
-		transition: var(--duration) ease-in-out;
-		transition-delay: var(--evelope-rotate-delay);
-		transform: var(--shadow-transform);
-		translate: -50% 0;
-		border-radius: 50%;
-		background: rgba(56, 6, 6, 0.4);
-		filter: blur(var(--shadow-blur));
-	}
+      document.querySelector(".emoji-rain-container").appendChild(emoji);
 
-	.envelope:hover {
-		--envelope-transform: var(--envelope-transform-hover);
-		--evelope-rotate-delay: var(--evelope-rotate-delay-hover);
-		--shadow-transform: rotateY(180deg);
-		--fold-rotate: var(--fold-rotate-hover);
-		--fold-delay: var(--fold-delay-hover);
-		--fold-zindex: var(--fold-zindex-hover);
-		--letter-height: var(--letter-height-hover);
-		--letter-delay: var(--letter-delay-hover);
-	}
+      setTimeout(() => emoji.remove(), 6000);
+    }
 
-	.envelope-inner {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		transition: var(--duration) ease-in-out;
-		transition-delay: var(--evelope-rotate-delay);
-		transform-style: preserve-3d;
-		transform: var(--envelope-transform);
-		display: grid;
-	}
+    let raining = false;
+    const envelope = document.querySelector(".envelope");
+    const music = document.getElementById("music");
 
-	.envelope-front,
-	.envelope-back {
-		position: relative;
-		grid-area: 1/1;
-		width: 100%;
-		height: 100%;
-		background-color: var(--envelope-clr-bg);
-		backface-visibility: hidden;
-		isolation: isolate;
-	}
-
-	.envelope-front {
-		color: var(--envelope-clr-txt);
-		display: grid;
-		place-content: center;
-	}
-
-	.envelope-front .postage-stamp {
-		position: absolute;
-		top: 1em;
-		right: 0.5em;
-		width: 15%;
-	}
-
-	.envelope-front .address {
-		text-align: left;
-		font-size: var(--front-font-size);
-	}
-	.envelope-front .address > p > span:first-child {
-		font-family: system-ui;
-		font-weight: 200;
-	}
-	.envelope-front .address > p > span:last-of-type {
-		font-weight: 800;
-	}
-
-	.envelope-back {
-		transform: rotateY(180deg);
-	}
-	.envelope-back::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 3;
-		background-image: conic-gradient(
-			transparent 60deg,
-			var(--envelope-clr-bg-side) 60deg 120deg,
-			var(--envelope-clr-bg-bottom) 120deg 240deg,
-			var(--envelope-clr-bg-side) 240deg 300deg,
-			transparent 300deg
-		);
-	}
-	.envelope-back .top-fold {
-		position: absolute;
-		inset: 0;
-		z-index: var(--fold-zindex, 10);
-		background-color: var(--envelope-clr-bg-top);
-		clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
-		transform: var(--fold-rotate);
-		transform-origin: top;
-		transition: var(--duration) ease-in-out;
-		transition-delay: var(--fold-delay);
-	}
-
-	.letter {
-		position: absolute;
-		bottom: 5px;
-		left: 50%;
-		width: 90%;
-		height: var(--letter-height);
-		font-size: var(--letter-font-size);
-		transform: translateX(-50%);
-		background: var(--letter-clr-bg);
-		z-index: 2;
-		padding: 2em 3em;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		align-items: center;
-		text-align: center;
-		transition: var(--duration) ease-in-out;
-		transition-delay: var(--letter-delay);
-		overflow: hidden;
-	}
-	.letter p {
-		margin: 0;
-		font-weight: bold;
-		width: 32ch;
-		color: var(--letter-clr-text);
-	}
-	.custom-image {
-		width: 100px;
-		height: 100px;
-		object-fit: contain;
-	}
-	.custom-image2 {
-		width: 150px;
-		height: 150px;
-		object-fit: contain;
-	}
-
-	.fade-in-text {
-		font-family: "Quicksand", sans-serif;
-		font-size: 1.5rem;
-		color: #c0392b;
-		font-weight: bold;
-		opacity: 0;
-		animation: typing 4s steps(30, end) forwards;
-		white-space: nowrap;
-		overflow: hidden;
-		border-right: 2px solid #c0392b;
-		width: 0;
-		margin-bottom: 1rem;
-	}
-
-	@keyframes typing {
-		from {
-			width: 0;
-			opacity: 1;
-		}
-		to {
-			width: 100%;
-			opacity: 1;
-		}
-	}
-
-	/* EMOJI RAIN */
-	.emoji-rain-container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		z-index: 999;
-	}
-	.emoji {
-		position: absolute;
-		top: -50px;
-		font-size: 2rem;
-		animation: fall 5s linear infinite;
-		opacity: 0.8;
-	}
-	@keyframes fall {
-		to {
-			transform: translateY(100vh);
-			opacity: 0;
-		}
-	}
-</style>
-
-<!-- SOBRE -->
-<div class="envelope">
-	<div class="envelope-inner">
-		<div class="envelope-front">
-			<img class="postage-stamp" src="https://i.ibb.co/FXyY2CM/stamp.png" alt="stamp" />
-			<div class="address">
-				<p><span>De:</span> <span>mi</span></p>
-				<p><span>Para:</span> <span>ti ♥️</span></p>
-			</div>
-		</div>
-		<div class="envelope-back">
-			<div class="top-fold"></div>
-			<div class="letter">
-				<h2 class="fade-in-text">Feliz día Kla! 🌻</h2>
-				<p>Yo vi esta flor y pensé en ti porque es bonita, en realidad a mí no me gusta, pero pensé que a ti te gustaría, porque tú sí eres bonita.</p>
-				<img class="custom-image2" src="https://i.ibb.co/5M7XJyC/daisy.png" alt="Flor" />
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- EMOJI RAIN -->
-<div class="emoji-rain-container"></div>
-
-<!-- AUDIO -->
-<audio id="music" preload="auto">
-	<source src="https://dl.dropboxusercontent.com/scl/fi/6tv9n7fjs86dfj8zqef83/Flores-Amarillas.mp3?rlkey=r3lm9mfo0rf7wzy0b95e4l7sv&dl=0" type="audio/mpeg">
-</audio>
-
-<!-- SCRIPT -->
-<script>
-function createEmoji() {
-	const emoji = document.createElement("div");
-	emoji.classList.add("emoji");
-	emoji.textContent = "🌻";
-	emoji.style.left = Math.random() * 100 + "vw";
-	emoji.style.fontSize = (Math.random() * 20 + 20) + "px";
-	emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
-
-	document.querySelector(".emoji-rain-container").appendChild(emoji);
-
-	setTimeout(() => emoji.remove(), 6000);
-}
-
-let raining = false;
-const envelope = document.querySelector(".envelope");
-const music = document.getElementById("music");
-
-envelope.addEventListener("mouseenter", () => {
-	if (!raining) {
-		raining = true;
-		setInterval(createEmoji, 300);
-	}
-	if (music.paused) {
-		music.play().catch(e => {
-			console.log("Playback prevented:", e);
-		});
-	}
-});
-</script>
+    envelope.addEventListener("mouseenter", () => {
+      if (!raining) {
+        raining = true;
+        setInterval(createEmoji, 300);
+      }
+      if (music.paused) {
+        music.play().catch(e => {
+          console.log("Playback prevented:", e);
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
