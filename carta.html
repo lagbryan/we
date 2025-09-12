@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Ti ♥️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Estilos generales y adaptaciones para móviles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to bottom right, #ffecec, #fff5f5, #ffebeb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .envelope {
+      --envelope-width: 90vw;
+      --envelope-height: 50vw;
+      max-width: 600px;
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .envelope-inner {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 1s ease-in-out;
+      display: grid;
+    }
+
+    .envelope:hover .envelope-inner {
+      transform: rotateY(180deg);
+    }
+
+    .envelope-front, .envelope-back {
+      grid-area: 1/1;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      position: relative;
+      background: #d14d44;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem;
+      color: #fff;
+    }
+
+    .envelope-front {
+      z-index: 2;
+    }
+
+    .envelope-front .address {
+      font-size: 1rem;
+    }
+
+    .envelope-front .address p {
+      margin-bottom: 0.5rem;
+    }
+
+    .envelope-back {
+      transform: rotateY(180deg);
+    }
+
+    .top-fold {
+      position: absolute;
+      inset: 0;
+      background-color: #c24e46;
+      clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
+      z-index: 3;
+      transition: transform 1s ease-in-out;
+      transform-origin: top;
+    }
+
+    .envelope:hover .top-fold {
+      transform: rotateX(180deg);
+    }
+
+    .letter {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      background: #fff;
+      padding: 2em 1em;
+      font-size: 1rem;
+      color: #c0392b;
+      z-index: 2;
+      text-align: center;
+      transition: height 1s ease-in-out;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .envelope:hover .letter {
+      height: auto;
+    }
+
+    .custom-image, .custom-image2 {
+      width: 100px;
+      margin: 0 auto 1em;
+    }
+
+    .custom-image2 {
+      width: 140px;
+    }
+
+    .fade-text {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #c0392b;
+      opacity: 0;
+      display: inline-block;
+      animation: fadeInText 3s forwards;
+      white-space: nowrap;
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Cascada de emojis 🌻 */
+    .emoji {
+      position: fixed;
+      font-size: 24px;
+      animation: fall 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="love-audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<div class="envelope" onclick="openEnvelope()">
+  <div class="envelope-inner">
+    <div class="envelope-front">
+      <div class="address">
+        <p><strong>De:</strong> mi</p>
+        <p><strong>Para:</strong> ti ♥️</p>
+      </div>
+    </div>
+
+    <div class="envelope-back">
+      <div class="top-fold"></div>
+      <div class="letter">
+        <div id="fade-text" class="fade-text"></div>
+
+        <img src="https://img.freepik.com/vector-premium/pulgar-dedos-imprimir-marca-huella-dactilar-amor-corazon_53500-1839.jpg" alt="love1" class="custom-image">
+
+        <p style="max-width: 35ch; margin: 0 auto;">
+          Yo vi esta flor y pensé en ti porque es bonita, en realidad a mí no me gusta, pero pensé que a ti te gustaría, porque tú sí eres bonita.
+        </p>
+
+        <img src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg" alt="love2" class="custom-image2">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audio = document.getElementById("love-audio");
+  let opened = false;
+
+  function openEnvelope() {
+    if (opened) return;
+    opened = true;
+
+    // Reproducir música
+    audio.play();
+
+    // Mostrar texto letra por letra
+    const text = "Feliz día Kla! 🌻";
+    const fadeText = document.getElementById("fade-text");
+
+    let i = 0;
+    function typeLetter() {
+      if (i < text.length) {
+        fadeText.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeLetter, 100);
+      }
+    }
+    typeLetter();
+
+    // Emojis 🌻 en cascada
+    setInterval(() => {
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.top = "-10px";
+      emoji.textContent = "🌻";
+      document.body.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 3000);
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
