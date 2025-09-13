@@ -345,50 +345,81 @@
   </audio>
 
   <script>
-    const envelope = document.querySelector(".envelope");
-    const tituloSuperior = document.querySelector(".titulo-superior");
-    const tituloAbrir = document.querySelector(".titulo-abrir");
-    const music = document.getElementById("music");
-    let isOpen = false;
-    let emojiInterval;
+  const envelope = document.querySelector(".envelope");
+  const tituloSuperior = document.querySelector(".titulo-superior");
+  const tituloAbrir = document.querySelector(".titulo-abrir");
+  const music = document.getElementById("music");
+  let isOpen = false;
+  let emojiInterval;
 
-    function createEmoji() {
-      const emoji = document.createElement("div");
-      emoji.classList.add("emoji");
-      emoji.textContent = "🎈";
-      emoji.style.left = Math.random() * 100 + "vw";
-      emoji.style.fontSize = (Math.random() * 40 + 60) + "px";
-      emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
-      document.querySelector(".emoji-rain-container").appendChild(emoji);
-      setTimeout(() => emoji.remove(), 6000);
-    }
+  // Función para crear emojis
+  function createEmoji() {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.textContent = "🎈";
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.fontSize = (Math.random() * 40 + 60) + "px"; // Aumento tamaño de los emojis
+    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.querySelector(".emoji-rain-container").appendChild(emoji);
+    setTimeout(() => emoji.remove(), 6000);
+  }
 
-    function createConfetti() {
-      const confetti = document.createElement("div");
-      confetti.classList.add("confetti");
-      confetti.style.left = Math.random() * 100 + "vw";
-      confetti.style.backgroundColor = ["#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff"][Math.floor(Math.random() * 6)];
-      confetti.style.animationDuration = (Math.random() * 2 + 3) + "s";
-      const confettiSize = Math.random() * 20 + 30; // Tamaño entre 30px y 50px
-      confetti.style.width = `${confettiSize}px`;
-      confetti.style.height = `${confettiSize * 2}px`; // Haciendo que el confeti tenga una forma rectangular
+  // Función para crear confeti
+  function createConfetti() {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor = ["#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff"][Math.floor(Math.random() * 6)];
+    confetti.style.animationDuration = (Math.random() * 2 + 3) + "s";
 
-      document.querySelector(".emoji-rain-container").appendChild(confetti);
-      setTimeout(() => confetti.remove(), 6000);
-    }
+    // Tamaño aleatorio del confeti
+    const confettiSize = Math.random() * 20 + 30; // Tamaño entre 30px y 50px
+    confetti.style.width = `${confettiSize}px`;
+    confetti.style.height = `${confettiSize * 2}px`; // Confeti más grande
 
-    function startRain() {
-      emojiInterval = setInterval(() => {
-        createEmoji();
-        createConfetti();
-      }, 300);
-    }
+    document.querySelector(".emoji-rain-container").appendChild(confetti);
+    setTimeout(() => confetti.remove(), 6000);
+  }
 
-    envelope.addEventListener("click", () => {
-      if (isOpen) return; // no hacer nada si ya está abierto
+  function startRain() {
+    emojiInterval = setInterval(() => {
+      createEmoji();
+      createConfetti();
+    }, 300);
+  }
+
+  // Lógica para abrir y cerrar el sobre
+  envelope.addEventListener("click", () => {
+    if (isOpen) {
+      // Si está abierto, cerramos el sobre
+      isOpen = false;
+
+      // Revertir las transformaciones del sobre
+      envelope.style.setProperty("--envelope-transform", "rotateY(0deg)");
+      envelope.style.setProperty("--evelope-rotate-delay", "1000ms");
+      envelope.style.setProperty("--shadow-transform", "rotateY(0deg)");
+      envelope.style.setProperty("--fold-rotate", "rotateX(0deg)");
+      envelope.style.setProperty("--fold-delay", "calc(var(--duration) / 2)");
+      envelope.style.setProperty("--fold-zindex", "10");
+      envelope.style.setProperty("--letter-height", "calc(var(--envelope-height) - 2rem)");
+      envelope.style.setProperty("--letter-delay", "0ms");
+      envelope.style.animation = "bounce 2s infinite"; // Reanudar la animación bounce
+
+      // Restaurar el texto superior
+      tituloSuperior.style.display = "block";
+      setTimeout(() => {
+        tituloSuperior.style.opacity = 1;
+      }, 500);
+      tituloAbrir.style.opacity = 0;
+
+      // Detener la música y la lluvia
+      music.pause();
+      clearInterval(emojiInterval); // Detener la lluvia de emojis y confeti
+    } else {
+      // Si está cerrado, lo abrimos
       isOpen = true;
 
-      // Animación se dispara por :hover CSS, pero al hacer click forzamos que quede abierto
+      // Abrir el sobre (animación de apertura)
       envelope.style.setProperty("--envelope-transform", "rotateY(180deg)");
       envelope.style.setProperty("--evelope-rotate-delay", "0ms");
       envelope.style.setProperty("--shadow-transform", "rotateY(180deg)");
@@ -397,16 +428,16 @@
       envelope.style.setProperty("--fold-zindex", "0");
       envelope.style.setProperty("--letter-height", "calc(var(--envelope-height) * 1.75)");
       envelope.style.setProperty("--letter-delay", "1250ms");
-      envelope.style.animation = "none"; // detener el bounce
+      envelope.style.animation = "none"; // Detener el bounce
 
-      // Cambiar textos de arriba
+      // Cambiar los textos
       tituloSuperior.style.opacity = 0;
       setTimeout(() => {
         tituloSuperior.style.display = "none";
         tituloAbrir.style.opacity = 1;
       }, 500);
 
-      // Música
+      // Reproducir la música y comenzar la lluvia
       if (music.paused) {
         music.play().catch(e => {
           console.log("Playback prevented:", e);
@@ -415,8 +446,10 @@
 
       // Empezar lluvia
       startRain();
-    });
-  </script>
+    }
+  });
+</script>
+
 
 </body>
 </html>
