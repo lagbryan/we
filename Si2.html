@@ -357,7 +357,7 @@
       emoji.classList.add("emoji");
       emoji.textContent = "🎈";
       emoji.style.left = Math.random() * 100 + "vw";
-      emoji.style.fontSize = (Math.random() * 20 + 30) + "px";
+      emoji.style.fontSize = (Math.random() * 40 + 60) + "px";
       emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
       document.querySelector(".emoji-rain-container").appendChild(emoji);
       setTimeout(() => emoji.remove(), 6000);
@@ -369,6 +369,10 @@
       confetti.style.left = Math.random() * 100 + "vw";
       confetti.style.backgroundColor = ["#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff"][Math.floor(Math.random() * 6)];
       confetti.style.animationDuration = (Math.random() * 2 + 3) + "s";
+      const confettiSize = Math.random() * 20 + 30; // Tamaño entre 30px y 50px
+      confetti.style.width = `${confettiSize}px`;
+      confetti.style.height = `${confettiSize * 2}px`; // Haciendo que el confeti tenga una forma rectangular
+
       document.querySelector(".emoji-rain-container").appendChild(confetti);
       setTimeout(() => confetti.remove(), 6000);
     }
