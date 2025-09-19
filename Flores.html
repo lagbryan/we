@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mi regalo especial 💌</title>
+  <meta name="google-adsense-account" content="ca-pub-4704501585981299" />
+  <style>
+    #music {
+  display: none;
+}
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Quicksand", sans-serif;
+      background: linear-gradient(to bottom right, #ffecec, #fff5f5, #ffebeb);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    h1.titulo-superior,
+    h1.titulo-abrir {
+      font-family: "Quicksand", sans-serif;
+      font-size: 3rem;
+      font-style: italic;
+      color: #c0392b;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    h1.titulo-superior {
+      opacity: 1;
+      margin-top: 0;
+    }
+
+    h1.titulo-abrir {
+      position: absolute;
+      top: 1rem;
+      opacity: 0;
+      margin: 0;
+      user-select: none;
+    }
+
+    .envelope {
+      --duration: 1000ms;
+      --shadow-width: calc(var(--envelope-width) * 0.85);
+      --shadow-blur: 15px;
+      --envelope-width: 300px;
+      --envelope-height: 175px;
+      --envelope-clr-bg: #d14d44;
+      --envelope-clr-bg-side: #c24e46;
+      --envelope-clr-bg-bottom: #e15349;
+      --envelope-clr-bg-top: #d14d44;
+      --envelope-clr-txt: #fff;
+      --envelope-transform-hover: rotateY(180deg);
+      --evelope-rotate-delay: calc(var(--duration) / 1);
+      --evelope-rotate-delay-hover: 0ms;
+      --letter-clr-bg: #fff;
+      --letter-clr-text: #c0392b;
+      --letter-font-size: 0.9rem;
+      --letter-delay: 0ms;
+      --letter-delay-hover: calc(var(--duration) * 1.25);
+      --letter-height: calc(var(--envelope-height) - 2rem);
+      --letter-height-hover: calc(var(--envelope-height) * 1.75);
+      --fold-rotate: rotateX(0deg);
+      --fold-zindex-hover: 0;
+      --fold-rotate-hover: rotateX(180deg);
+      --fold-delay: calc(var(--duration) / 2);
+      --fold-delay-hover: calc(var(--duration) * 0.75);
+      --front-font-size: 1rem;
+
+      position: relative;
+      height: var(--envelope-height);
+      width: var(--envelope-width);
+      perspective: 1000px;
+      cursor: pointer;
+      animation: bounce 2s infinite;
+      user-select: none;
+    }
+
+    @media (min-width: 720px) {
+      .envelope {
+        --envelope-width: 600px;
+        --envelope-height: 350px;
+        --letter-font-size: 1.4rem;
+        --front-font-size: 1.25rem;
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .envelope:hover {
+      animation: none;
+    }
+
+    .envelope::after {
+      content: "";
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      width: var(--shadow-width);
+      height: 40px;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--evelope-rotate-delay);
+      transform: var(--shadow-transform);
+      translate: -50% 0;
+      border-radius: 50%;
+      background: rgba(56, 6, 6, 0.4);
+      filter: blur(var(--shadow-blur));
+      user-select: none;
+    }
+
+    .envelope:hover {
+      --envelope-transform: var(--envelope-transform-hover);
+      --evelope-rotate-delay: var(--evelope-rotate-delay-hover);
+      --shadow-transform: rotateY(180deg);
+      --fold-rotate: var(--fold-rotate-hover);
+      --fold-delay: var(--fold-delay-hover);
+      --fold-zindex: var(--fold-zindex-hover);
+      --letter-height: var(--letter-height-hover);
+      --letter-delay: var(--letter-delay-hover);
+    }
+
+    .envelope-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--evelope-rotate-delay);
+      transform-style: preserve-3d;
+      transform: var(--envelope-transform);
+      display: grid;
+      user-select: none;
+    }
+
+    .envelope-front,
+    .envelope-back {
+
+      background: url('https://www.dropbox.com/scl/fi/pg9q5tqzluynnhliaxalw/natural-paper.png?rlkey=5psahlwv9s6hcvhrbvt6qr3s9&st=503y5vrk&raw=1') no-repeat center center;
+  background-size: cover;
+      
+      position: relative;
+      grid-area: 1/1;
+      width: 100%;
+      height: 100%;
+      background-color: var(--envelope-clr-bg);
+      backface-visibility: hidden;
+      isolation: isolate;
+      user-select: none;
+    }
+
+    .envelope-front {
+      color: var(--envelope-clr-txt);
+      display: grid;
+      place-content: center;
+      user-select: none;
+    }
+
+    .envelope-front .postage-stamp {
+      position: absolute;
+      top: 1em;
+      right: 0.5em;
+      width: 20%;
+      user-select: none;
+    }
+
+    .envelope-front .address {
+      text-align: left;
+      font-size: var(--front-font-size);
+      user-select: none;
+    }
+
+    .envelope-front .address > p > span:first-child {
+      font-family: system-ui;
+      font-weight: 200;
+      user-select: none;
+    }
+
+    .envelope-front .address > p > span:last-of-type {
+      font-weight: 800;
+      user-select: none;
+    }
+
+    .envelope-back {
+      transform: rotateY(180deg);
+      user-select: none;
+    }
+
+    .envelope-back::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background-image: conic-gradient(
+        transparent 60deg,
+        var(--envelope-clr-bg-side) 60deg 120deg,
+        var(--envelope-clr-bg-bottom) 120deg 240deg,
+        var(--envelope-clr-bg-side) 240deg 300deg,
+        transparent 300deg
+      );
+      user-select: none;
+    }
+
+    .envelope-back .top-fold {
+
+background: url('https://www.dropbox.com/scl/fi/pg9q5tqzluynnhliaxalw/natural-paper.png?rlkey=5psahlwv9s6hcvhrbvt6qr3s9&st=503y5vrk&raw=1') no-repeat center center;
+  background-size: cover;
+
+      
+      position: absolute;
+      inset: 0;
+      z-index: var(--fold-zindex, 10);
+      background-color: var(--envelope-clr-bg-top);
+      clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
+      transform: var(--fold-rotate);
+      transform-origin: top;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--fold-delay);
+      user-select: none;
+    }
+
+    .letter {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      width: 90%;
+      height: var(--letter-height);
+      font-size: var(--letter-font-size);
+      transform: translateX(-50%);
+      background: var(--letter-clr-bg);
+      z-index: 2;
+      padding: 2em 3em;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      text-align: center;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--letter-delay);
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .letter p {
+      margin: 0;
+      font-weight: bold;
+      width: 28ch;
+      color: var(--letter-clr-text);
+      user-select: none;
+    }
+
+    .custom-image {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    .custom-image2 {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    .emoji-rain-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      user-select: none;
+    }
+
+    .emoji {
+      position: absolute;
+      top: -50px;
+      font-size: 2.8rem;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
+      user-select: none;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -10px;
+      width: 10px;
+      height: 20px;
+      opacity: 0.8;
+      animation: fall 4s linear infinite;
+      transform: rotate(45deg);
+      user-select: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="titulo-superior">Tienes correo ✉️</h1>
+  <h1 class="titulo-abrir">Feliz dia 😁🌻🌻</h1>
+
+  <div class="envelope" role="button" aria-label="Abrir carta">
+    <div class="envelope-inner">
+      <div class="envelope-front">
+       <img class="postage-stamp" src="https://www.dropbox.com/scl/fi/s5gcdvwu1ou7ldoyz0eyy/9444829.png?rlkey=nfbh3mde62u6jgkkhlh5s0zyo&st=fpifh865&raw=1" alt="Estampilla globos" /> 
+        <div class="address">
+          <p><span>De:</span> <span>Yo Merito 🤨</span></p>
+          <p><span>Para:</span> <span>Ti UwU </span></p>
+        </div>
+      </div>
+      <div class="envelope-back">
+        <div class="top-fold"></div>
+        <div class="letter">
+          <p>Yo vi esta flor y pensé en ti porque es bonita, y bueno, en realidad a mí no me gusta, pero creí que te gustaría porque tú sí eres bonita.</p>
+       <!--   <img class="custom-image" src="https://img.freepik.com/vector-premium/pulgar-dedos-imprimir-marca-huella-dactilar-amor-corazon_53500-1839.jpg" alt="amor" />-->
+          <img class="custom-image2" src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg" alt="flores" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="emoji-rain-container"></div>
+
+  <audio id="music" preload="auto" controls>
+  <source src="https://www.dropbox.com/scl/fi/ueswuf4kz0sxqkryrcxk1/Flores_Amarillas.mp3?rlkey=pe2wsepw8xukctzyqqxymq3ei&st=s5ljeztg&raw=1" type="audio/mp3" />
+  Tu navegador no soporta audio.
+</audio>
+
+
+
+  <script>
+  const envelope = document.querySelector(".envelope");
+  const tituloSuperior = document.querySelector(".titulo-superior");
+  const tituloAbrir = document.querySelector(".titulo-abrir");
+  const music = document.getElementById("music");
+  let isOpen = false;
+  let emojiInterval;
+
+  // Función para crear emojis
+  function createEmoji() {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.textContent = "🌻";
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.fontSize = (Math.random() * 40 + 60) + "px"; // Aumento tamaño de los emojis
+    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.querySelector(".emoji-rain-container").appendChild(emoji);
+    setTimeout(() => emoji.remove(), 6000);
+  }
+
+  // Función para crear confeti
+  function createConfetti() {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor = ["#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff"][Math.floor(Math.random() * 6)];
+    confetti.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+    // Tamaño aleatorio del confeti
+    const confettiSize = Math.random() * 20 + 30; // Tamaño entre 30px y 50px
+    confetti.style.width = `${confettiSize}px`;
+    confetti.style.height = `${confettiSize * 2}px`; // Confeti más grande
+
+    document.querySelector(".emoji-rain-container").appendChild(confetti);
+    setTimeout(() => confetti.remove(), 6000);
+  }
+
+  function startRain() {
+    emojiInterval = setInterval(() => {
+      createEmoji();
+      createConfetti();
+    }, 300);
+  }
+
+  // Lógica para abrir y cerrar el sobre
+  envelope.addEventListener("click", () => {
+    if (isOpen) {
+      // Si está abierto, cerramos el sobre
+      isOpen = false;
+
+      // Revertir las transformaciones del sobre
+      envelope.style.setProperty("--envelope-transform", "rotateY(0deg)");
+      envelope.style.setProperty("--evelope-rotate-delay", "1000ms");
+      envelope.style.setProperty("--shadow-transform", "rotateY(0deg)");
+      envelope.style.setProperty("--fold-rotate", "rotateX(0deg)");
+      envelope.style.setProperty("--fold-delay", "calc(var(--duration) / 2)");
+      envelope.style.setProperty("--fold-zindex", "10");
+      envelope.style.setProperty("--letter-height", "calc(var(--envelope-height) - 2rem)");
+      envelope.style.setProperty("--letter-delay", "0ms");
+      envelope.style.animation = "bounce 2s infinite"; // Reanudar la animación bounce
+
+      // Restaurar el texto superior
+      tituloSuperior.style.display = "block";
+      setTimeout(() => {
+        tituloSuperior.style.opacity = 1;
+      }, 500);
+      tituloAbrir.style.opacity = 0;
+
+      // Detener la música y la lluvia
+      music.pause();
+      clearInterval(emojiInterval); // Detener la lluvia de emojis y confeti
+    } else {
+      // Si está cerrado, lo abrimos
+      isOpen = true;
+
+      // Abrir el sobre (animación de apertura)
+      envelope.style.setProperty("--envelope-transform", "rotateY(180deg)");
+      envelope.style.setProperty("--evelope-rotate-delay", "0ms");
+      envelope.style.setProperty("--shadow-transform", "rotateY(180deg)");
+      envelope.style.setProperty("--fold-rotate", "rotateX(180deg)");
+      envelope.style.setProperty("--fold-delay", "750ms");
+      envelope.style.setProperty("--fold-zindex", "0");
+      envelope.style.setProperty("--letter-height", "calc(var(--envelope-height) * 1.75)");
+      envelope.style.setProperty("--letter-delay", "1250ms");
+      envelope.style.animation = "none"; // Detener el bounce
+
+      // Cambiar los textos
+      tituloSuperior.style.opacity = 0;
+      setTimeout(() => {
+        tituloSuperior.style.display = "none";
+        tituloAbrir.style.opacity = 1;
+      }, 500);
+
+      // Reproducir la música y comenzar la lluvia
+      if (music.paused) {
+        music.play().catch(e => {
+          console.log("Playback prevented:", e);
+        });
+      }
+
+      // Empezar lluvia
+      startRain();
+    }
+  });
+</script>
+
+
+</body>
+</html>
